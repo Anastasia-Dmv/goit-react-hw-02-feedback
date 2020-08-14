@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
-// import { render } from '@testing-library/react';
+import Statistics from '../statistics/Statistics';
+import FeedbackOptions from '../feedbackOptions/FeedbackOptions';
+import Section from '../section/Section';
+import Notification from '../notification/Notification';
+
 
 class Feedback extends Component {
+
     state = {
         good: 0,
         neutral: 0,
@@ -9,41 +14,41 @@ class Feedback extends Component {
       }
 
 
-  handleLeaveFeedback = e => {
-const name = e.target.name;
+  handleLeaveFeedback = (name) => {
+
 this.setState(prevState=>({[name]: prevState[name]+1}));
+console.log('111', 111)
 
   }   
 
   countTotalFeedback =()=> {
       const { good, neutral, bad} = this.state;
-      return good + neutral + bad;
+      return   good + neutral + bad;
   }
 
   countPositiveFeedbackPercentage=()=>{
+      const {good}= this.state;
+      const result = (good * 100 / this.countTotalFeedback()).toFixed();
       
+       return result
   }
 render(){
-
+    const { good, neutral, bad} = this.state;
+    const totalFn = this.countTotalFeedback()
     return (
-<div>
-
-    <h2>Please leave feedback</h2>
-
-    <button type="button" name="good">Good</button>
-    <button type="button" name="neutral">Neutral</button>
-    <button type="button" name="bad">Bad</button>
-
-    <h3>Statistics</h3>
-
-    <p>Good:{}</p>
-    <p>Neutral:{}</p>
-    <p>Bad:{}</p>
-    
 
 
+   
 
-</div>
+    <Section title="Please leave feedback">
+ 
+<FeedbackOptions options={Object.keys(this.state)} onLeaveFeedback={this.handleLeaveFeedback}/>
+
+{ (totalFn > 0)
+?  <Statistics good={good} neutral={neutral} bad={bad} total={totalFn} positivePercentage={this.countPositiveFeedbackPercentage()}/>
+: <Notification message="No feedback given"/>}
+ </Section>
+
     )
 }
 
