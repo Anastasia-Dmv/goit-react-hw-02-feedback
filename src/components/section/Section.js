@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'; 
 
 export default class Section extends Component {
     render() {
@@ -11,4 +12,8 @@ const {title, children} = this.props
             </>
         )
     }
+}
+Section.propTypes={
+    title: PropTypes.string,
+   // children: PropTypes.element,//? ошибка в консоли
 }
